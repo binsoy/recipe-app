@@ -1,9 +1,14 @@
 import React from 'react';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import SearchBox from './SearchBox';
+
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../redux/actions/userAction';
+import {
+  logoutActionCreator,
+  resetActionCreator,
+} from '../redux/slices/userSlice';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -11,7 +16,9 @@ const Header = () => {
   const { userInfo } = userLogin;
 
   const handleLogout = () => {
-    dispatch(logout);
+    dispatch(logoutActionCreator());
+    dispatch(resetActionCreator());
+    localStorage.removeItem('userInfo');
   };
 
   return (
@@ -22,6 +29,7 @@ const Header = () => {
         </LinkContainer>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
+          <SearchBox />
           <Nav className='ms-auto'>
             {userInfo ? (
               <NavDropdown title={userInfo.name} id='username'>

@@ -6,7 +6,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserDetails, updateUserProfile } from '../redux/actions/userAction';
+import { details, update } from '../redux/actions/userAction';
 
 //Components
 import Message from '../components/Message';
@@ -37,7 +37,7 @@ const ProfileScreen = () => {
       navigate('/login');
     } else {
       if (!user.name) {
-        dispatch(getUserDetails('profile'));
+        dispatch(details('profile'));
       } else {
         setName(user.name);
         setEmail(user.email);
@@ -51,7 +51,7 @@ const ProfileScreen = () => {
     if (password !== confirmPassword) {
       setMessage('Passwords does not match');
     } else {
-      dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      dispatch(update({ id: user._id, name, email, password }));
     }
   };
   return (
@@ -72,7 +72,7 @@ const ProfileScreen = () => {
               onChange={(e) => setName(e.target.value)}
             />
           </Form.Group>
-          <Form.Group controlId='email'>
+          <Form.Group className='my-2' controlId='email'>
             <Form.Label>Email Address</Form.Label>
             <Form.Control
               type='email'
@@ -81,7 +81,7 @@ const ProfileScreen = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
-          <Form.Group controlId='password'>
+          <Form.Group className='my-2' controlId='password'>
             <Form.Label>Password</Form.Label>
             <Form.Control
               type='password'
@@ -90,7 +90,7 @@ const ProfileScreen = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
-          <Form.Group controlId='confirmPassword'>
+          <Form.Group className='my-2' controlId='confirmPassword'>
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
               type='password'
@@ -99,7 +99,7 @@ const ProfileScreen = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </Form.Group>
-          <Button type='submit' variant='primary'>
+          <Button className='my-1' type='submit' variant='primary'>
             Update
           </Button>
         </Form>
