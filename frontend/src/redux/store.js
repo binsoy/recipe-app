@@ -7,7 +7,7 @@ import {
   userUpdateProfileReducer,
 } from './slices/userSlice';
 
-import { recipeListReducer } from './slices/recipeSlice';
+import { recipeListReducer, favoritesReducer } from './slices/recipeSlice';
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
@@ -23,6 +23,7 @@ const reducer = {
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
   recipes: recipeListReducer,
+  favorites: favoritesReducer,
 };
 
 const store = configureStore({

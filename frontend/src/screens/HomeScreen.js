@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import Recipe from '../components/Recipe';
 import Loader from '../components/Loader';
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 
 import { resetListActionCreator } from '../redux/slices/recipeSlice';
-import { getRecipes } from '../redux/actions/recipeAction';
+import {
+  getRecipes,
+  getMoreRecipes,
+  getFavoriteRecipes,
+} from '../redux/actions/recipeAction';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -16,22 +19,21 @@ const HomeScreen = () => {
   const recipes = useSelector((state) => state.recipes);
   const { recipesInfo, loading } = recipes;
 
-  const { keyword } = useParams();
-  let searchItem = 'beef';
-  if (keyword) {
-    searchItem = keyword;
-  }
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
-  // TODO: transfer app_id & app_key to .env
-  let url = `https://api.edamam.com/api/recipes/v2?type=public&app_id=c491d062&app_key=2240fe8cb9c7aca4aed7b49a15064785&q=${searchItem}`;
+  const { keyword } = useParams();
 
   useEffect(() => {
     dispatch(resetListActionCreator());
-    dispatch(getRecipes(url));
-  }, [dispatch, url]);
+    dispatch(getRecipes(keyword));
+    if (userInfo) {
+      dispatch(getFavoriteRecipes());
+    }
+  }, [dispatch, keyword, userInfo]);
 
   const handleShowMoreClick = () => {
-    dispatch(getRecipes(recipesInfo._links.next.href));
+    dispatch(getMoreRecipes(recipesInfo._links.next.href));
   };
 
   return (

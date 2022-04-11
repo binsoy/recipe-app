@@ -7,8 +7,15 @@ import SearchBox from './SearchBox';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   logoutActionCreator,
-  resetActionCreator,
+  resetUserUpdateActionCreator,
+  resetUserDetailsActionCreator,
+  resetUserRegisterActionCreator,
 } from '../redux/slices/userSlice';
+
+import {
+  resetListActionCreator,
+  resetFavoritesActionCreator,
+} from '../redux/slices/recipeSlice';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -17,7 +24,11 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logoutActionCreator());
-    dispatch(resetActionCreator());
+    dispatch(resetUserUpdateActionCreator());
+    dispatch(resetUserDetailsActionCreator());
+    dispatch(resetUserRegisterActionCreator());
+    dispatch(resetListActionCreator());
+    dispatch(resetFavoritesActionCreator());
     localStorage.removeItem('userInfo');
   };
 
@@ -33,6 +44,9 @@ const Header = () => {
           <Nav className='ms-auto'>
             {userInfo ? (
               <NavDropdown title={userInfo.name} id='username'>
+                <LinkContainer to='/recipes/favorites'>
+                  <NavDropdown.Item>Favorites</NavDropdown.Item>
+                </LinkContainer>
                 <LinkContainer to='/profile'>
                   <NavDropdown.Item>Profile</NavDropdown.Item>
                 </LinkContainer>

@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Loader from '../components/Loader';
 import { Row, Col, Image, ListGroup, Button } from 'react-bootstrap';
-import axios from 'axios';
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+  addFavoriteRecipe,
+  deleteFavoriteRecipe,
+} from '../redux/actions/recipeAction';
 
 const hrStyle = {
   color: 'black',
@@ -11,19 +17,28 @@ const hrStyle = {
 };
 
 const RecipeScreen = () => {
-  const params = useParams();
-  const [recipe, setRecipe] = useState(null);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const recipe = location.state;
 
-  useEffect(() => {
-    const fetchRecipe = async () => {
-      const { data } = await axios.get(
-        `https://api.edamam.com/api/recipes/v2/${params.id}?type=public&app_id=c491d062&app_key=2240fe8cb9c7aca4aed7b49a15064785`
-      );
-      setRecipe(data.recipe);
-    };
+  const { favorites } = useSelector((state) => state.favorites);
 
-    fetchRecipe();
-  }, [params.id]);
+  const isRecipeFavorite = (id) => {
+    if (favorites) {
+      return favorites.some((x) => x.recipe.uri === id);
+    }
+
+    return false;
+  };
+
+  const handleFavoriteClick = () => {
+    const favoriteRecipe = favorites.find((x) => x.recipe.uri === recipe.uri);
+    if (favoriteRecipe) {
+      dispatch(deleteFavoriteRecipe(favoriteRecipe._id));
+    } else {
+      dispatch(addFavoriteRecipe(recipe));
+    }
+  };
 
   return (
     <>
@@ -48,8 +63,12 @@ const RecipeScreen = () => {
             <h6>Meal Type: {recipe.mealType[0]}</h6>
             <h6>Dish Type: {recipe.dishType[0]}</h6>
             <Button variant='primary'>Download PDF</Button>
-            <h5 className='pt-2'>
-              <i className='fa-regular fa-heart' style={{ fontSize: 30 }} />
+            <h5 className='pt-2' onClick={handleFavoriteClick}>
+              {isRecipeFavorite(recipe.uri) ? (
+                <i className={'fa-solid fa-heart'} style={{ fontSize: 30 }} />
+              ) : (
+                <i className={'fa-regular fa-heart'} style={{ fontSize: 30 }} />
+              )}
             </h5>
           </Col>
           <Col>

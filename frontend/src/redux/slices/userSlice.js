@@ -31,7 +31,11 @@ const userLoginSlice = createSlice({
 const userRegisterSlice = createSlice({
   name: 'userRegister',
   initialState: {},
-  reducers: {},
+  reducers: {
+    reset: (state, action) => {
+      return {};
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(register.pending, (state, action) => {
@@ -51,7 +55,11 @@ const userRegisterSlice = createSlice({
 const userDetailsSlice = createSlice({
   name: 'userDetails',
   initialState: { user: {} },
-  reducers: {},
+  reducers: {
+    reset: (state, action) => {
+      return {};
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(details.pending, (state, action) => {
@@ -99,7 +107,13 @@ export const {
   login: loginActionCreator,
 } = userLoginSlice.actions;
 
-export const { reset: resetActionCreator } = userUpdateSlice.actions;
+export const { reset: resetUserUpdateActionCreator } = userUpdateSlice.actions;
+export const {
+  reset: resetUserRegisterActionCreator,
+} = userRegisterSlice.actions;
+export const {
+  reset: resetUserDetailsActionCreator,
+} = userDetailsSlice.actions;
 
 export const userReducer = userLoginSlice.reducer;
 export const userRegisterReducer = userRegisterSlice.reducer;
