@@ -25,7 +25,6 @@ const LoginScreen = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const redirectPath = searchParams.get('redirect');
-
   const redirect = redirectPath ? redirectPath : '/';
 
   useEffect(() => {
@@ -36,8 +35,9 @@ const LoginScreen = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
+    dispatch(login({ email, password }));
   };
+
   return (
     <FormContainer>
       <h1>Sign In</h1>
@@ -53,7 +53,7 @@ const LoginScreen = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId='password'>
+        <Form.Group className='my-2' controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type='password'
@@ -62,7 +62,7 @@ const LoginScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button type='submit' variant='primary'>
+        <Button className='my-1' type='submit' variant='primary'>
           Sign In
         </Button>
       </Form>

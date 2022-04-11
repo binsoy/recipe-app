@@ -6,6 +6,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
+import { loginActionCreator } from '../redux/slices/userSlice';
 import { register } from '../redux/actions/userAction';
 
 //Components
@@ -33,9 +34,10 @@ const RegisterScreen = () => {
 
   useEffect(() => {
     if (userInfo) {
+      dispatch(loginActionCreator(userInfo));
       navigate(redirect);
     }
-  }, [navigate, userInfo, redirect]);
+  }, [dispatch, navigate, userInfo, redirect]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ const RegisterScreen = () => {
     if (password !== confirmPassword) {
       setMessage('Passwords does not match');
     } else {
-      dispatch(register(name, email, password));
+      dispatch(register({ name, email, password }));
     }
   };
   return (
@@ -62,7 +64,7 @@ const RegisterScreen = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId='email'>
+        <Form.Group className='my-2' controlId='email'>
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type='email'
@@ -71,7 +73,7 @@ const RegisterScreen = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId='password'>
+        <Form.Group className='my-2' controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type='password'
@@ -80,7 +82,7 @@ const RegisterScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId='confirmPassword'>
+        <Form.Group className='my-2' controlId='confirmPassword'>
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type='password'
@@ -89,7 +91,7 @@ const RegisterScreen = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
-        <Button type='submit' variant='primary'>
+        <Button className='my-1' type='submit' variant='primary'>
           Register
         </Button>
       </Form>
