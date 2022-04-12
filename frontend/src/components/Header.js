@@ -1,6 +1,10 @@
 import React from 'react';
+
+//Bootstrap
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+
+//Component
 import SearchBox from './SearchBox';
 
 //Redux

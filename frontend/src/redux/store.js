@@ -1,13 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { recipeListReducer, favoritesReducer } from './slices/recipeSlice';
 import {
   userReducer,
   userRegisterReducer,
   userDetailsReducer,
   userUpdateProfileReducer,
 } from './slices/userSlice';
-
-import { recipeListReducer, favoritesReducer } from './slices/recipeSlice';
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))

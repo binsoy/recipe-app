@@ -1,6 +1,9 @@
 import React from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+
+//Bootstrap
+import { Card, Row, Col } from 'react-bootstrap';
+
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -8,7 +11,7 @@ import {
   deleteFavoriteRecipe,
 } from '../redux/actions/recipeAction';
 
-const heartIconStyle = { float: 'right', fontSize: 20 };
+const heartIconStyle = { float: 'right', fontSize: 27 };
 const cardTitleStyle = {
   textOverflow: 'ellipsis',
   width: 220,
@@ -57,7 +60,9 @@ const Recipe = ({ recipe: { recipe } }) => {
         </Card.Title>
         <Card.Text as='div'>
           <Row>
-            <Col as='h6'>{recipe.dishType[0]}</Col>
+            <Col>
+              <span>{recipe.dishType[0]}</span>
+            </Col>
             <Col onClick={handleFavoriteClick}>
               {isRecipeFavorite(recipe.uri) ? (
                 <i className={'fa-solid fa-heart'} style={heartIconStyle} />

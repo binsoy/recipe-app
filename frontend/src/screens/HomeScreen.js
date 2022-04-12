@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
-import Recipe from '../components/Recipe';
-import Loader from '../components/Loader';
 import { useParams } from 'react-router-dom';
+
+//Bootstrap
+import { Row, Col, Button } from 'react-bootstrap';
+
+//Component
+import Loader from '../components/Loader';
+import Recipe from '../components/Recipe';
+
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-
 import { resetListActionCreator } from '../redux/slices/recipeSlice';
 import {
   getRecipes,
@@ -15,14 +19,13 @@ import {
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
+  const { keyword } = useParams();
 
   const recipes = useSelector((state) => state.recipes);
   const { recipesInfo, loading } = recipes;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
-  const { keyword } = useParams();
 
   useEffect(() => {
     dispatch(resetListActionCreator());

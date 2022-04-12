@@ -1,14 +1,20 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { saveAs } from 'file-saver';
+
+//Components
 import Loader from '../components/Loader';
+
+//Bootstrap
 import { Row, Col, Image, ListGroup, Button } from 'react-bootstrap';
+
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-
 import {
   addFavoriteRecipe,
   deleteFavoriteRecipe,
 } from '../redux/actions/recipeAction';
+import axios from 'axios';
 
 const hrStyle = {
   color: 'black',
@@ -40,6 +46,16 @@ const RecipeScreen = () => {
     }
   };
 
+  const handleDownloadClick = () => {
+    axios
+      .post('/api/files/create-pdf', recipe)
+      .then(() => axios.get('/api/files/download', { responseType: 'blob' }))
+      .then((res) => {
+        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+        saveAs(pdfBlob, `${recipe.label}_${Date.now()}.pdf`);
+      });
+  };
+
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
@@ -62,7 +78,9 @@ const RecipeScreen = () => {
             <h6>Cuisine Type: {recipe.cuisineType[0]}</h6>
             <h6>Meal Type: {recipe.mealType[0]}</h6>
             <h6>Dish Type: {recipe.dishType[0]}</h6>
-            <Button variant='primary'>Download PDF</Button>
+            <Button variant='primary' onClick={handleDownloadClick}>
+              Download PDF
+            </Button>
             <h5 className='pt-2' onClick={handleFavoriteClick}>
               {isRecipeFavorite(recipe.uri) ? (
                 <i className={'fa-solid fa-heart'} style={{ fontSize: 30 }} />

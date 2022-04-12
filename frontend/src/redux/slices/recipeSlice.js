@@ -59,7 +59,9 @@ const favoriteRecipesSlice = createSlice({
       })
       .addCase(getFavoriteRecipes.fulfilled, (state, action) => {
         state.loading = false;
-        state.favorites = action.payload;
+        state.favorites = action.payload.recipes;
+        state.page = action.payload.page;
+        state.pages = action.payload.pages;
       })
       .addCase(getFavoriteRecipes.rejected, (state, action) => {
         state.error = action.error;

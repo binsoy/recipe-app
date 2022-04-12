@@ -8,9 +8,9 @@ import {
 
 const router = express.Router();
 
+router.route('/').post(authMiddleware, addFavoriteRecipe);
 router
-  .route('/')
+  .route('/:id')
   .get(authMiddleware, getRecipes)
-  .post(authMiddleware, addFavoriteRecipe);
-router.route('/:id').delete(authMiddleware, deleteFavoriteRecipe);
+  .delete(authMiddleware, deleteFavoriteRecipe);
 export default router;

@@ -7,17 +7,27 @@ import Recipe from '../models/recipeModel.js';
  * @access Private
  */
 export const getRecipes = asyncHandler(async (req, res) => {
-  const recipes = await Recipe.find({
+  const pageSize = 8;
+  const page = Number(req.params.id) || 1;
+
+  const count = await Recipe.countDocuments({
     user: req.user._id,
   });
 
-  if (recipes) {
-    res.status(200);
-    res.json(recipes);
+  let recipes;
+  if (Number(req.params.id)) {
+    recipes = await Recipe.find({
+      user: req.user._id,
+    })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
   } else {
-    res.status(400);
-    throw new Error('Recipe not found');
+    recipes = await Recipe.find({
+      user: req.user._id,
+    });
   }
+
+  res.json({ recipes, page, pages: Math.ceil(count / pageSize) });
 });
 
 /**

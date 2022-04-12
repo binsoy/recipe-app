@@ -15,15 +15,16 @@ import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
 
 const LoginScreen = () => {
+  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
 
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const redirectPath = searchParams.get('redirect');
   const redirect = redirectPath ? redirectPath : '/';
 

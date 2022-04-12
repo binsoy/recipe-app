@@ -16,6 +16,7 @@ const SearchBox = () => {
       navigate('/');
     }
   };
+
   return (
     <Form onSubmit={handleSubmit} style={{ display: 'inherit' }}>
       <Form.Control

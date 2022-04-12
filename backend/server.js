@@ -10,6 +10,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 //Routes
 import userRoutes from './routes/userRoutes.js';
 import recipeRoutes from './routes/recipeRoutes.js';
+import fileRoutes from './routes/fileRoutes.js';
 
 dotenv.config();
 connectDB();
@@ -22,6 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api/users', userRoutes);
 app.use('/api/recipes/favorites', recipeRoutes);
+app.use('/api/files/', fileRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
