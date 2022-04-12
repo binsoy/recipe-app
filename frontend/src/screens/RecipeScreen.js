@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { saveAs } from 'file-saver';
+import { useNavigate } from 'react-router-dom';
 
 //Components
 import Loader from '../components/Loader';
@@ -24,10 +25,13 @@ const hrStyle = {
 
 const RecipeScreen = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const recipe = location.state;
 
   const { favorites } = useSelector((state) => state.favorites);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const isRecipeFavorite = (id) => {
     if (favorites) {
@@ -38,11 +42,15 @@ const RecipeScreen = () => {
   };
 
   const handleFavoriteClick = () => {
-    const favoriteRecipe = favorites.find((x) => x.recipe.uri === recipe.uri);
-    if (favoriteRecipe) {
-      dispatch(deleteFavoriteRecipe(favoriteRecipe._id));
+    if (!userInfo) {
+      navigate('/login');
     } else {
-      dispatch(addFavoriteRecipe(recipe));
+      const favoriteRecipe = favorites.find((x) => x.recipe.uri === recipe.uri);
+      if (favoriteRecipe) {
+        dispatch(deleteFavoriteRecipe(favoriteRecipe._id));
+      } else {
+        dispatch(addFavoriteRecipe(recipe));
+      }
     }
   };
 

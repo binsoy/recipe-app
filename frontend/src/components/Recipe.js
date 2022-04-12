@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 //Bootstrap
 import { Card, Row, Col } from 'react-bootstrap';
@@ -22,7 +23,11 @@ const removeLinkUnderline = { textDecoration: 'none' };
 
 const Recipe = ({ recipe: { recipe } }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { favorites } = useSelector((state) => state.favorites);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const isRecipeFavorite = (id) => {
     if (favorites) {
@@ -33,11 +38,15 @@ const Recipe = ({ recipe: { recipe } }) => {
   };
 
   const handleFavoriteClick = (e) => {
-    const favoriteRecipe = favorites.find((x) => x.recipe.uri === recipe.uri);
-    if (favoriteRecipe) {
-      dispatch(deleteFavoriteRecipe(favoriteRecipe._id));
+    if (!userInfo) {
+      navigate('/login');
     } else {
-      dispatch(addFavoriteRecipe(recipe));
+      const favoriteRecipe = favorites.find((x) => x.recipe.uri === recipe.uri);
+      if (favoriteRecipe) {
+        dispatch(deleteFavoriteRecipe(favoriteRecipe._id));
+      } else {
+        dispatch(addFavoriteRecipe(recipe));
+      }
     }
   };
 
