@@ -14,6 +14,7 @@ import Loader from '../components/Loader';
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -29,8 +30,6 @@ const ProfileScreen = () => {
 
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!userInfo) {

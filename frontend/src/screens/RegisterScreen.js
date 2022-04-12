@@ -15,21 +15,20 @@ import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
 
 const RegisterScreen = () => {
-  const [name, setName] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(null);
 
-  const dispatch = useDispatch();
   const userRegister = useSelector((state) => state.userRegister);
   const { loading, error, userInfo } = userRegister;
 
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const redirectPath = searchParams.get('redirect');
-
   const redirect = redirectPath ? redirectPath : '/';
 
   useEffect(() => {
@@ -41,13 +40,13 @@ const RegisterScreen = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (password !== confirmPassword) {
       setMessage('Passwords does not match');
     } else {
       dispatch(register({ name, email, password }));
     }
   };
+
   return (
     <FormContainer>
       <h1>Sign Up</h1>

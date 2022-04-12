@@ -1,13 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { recipeListReducer, favoritesReducer } from './slices/recipeSlice';
 import {
   userReducer,
   userRegisterReducer,
   userDetailsReducer,
   userUpdateProfileReducer,
 } from './slices/userSlice';
-
-import { recipeListReducer } from './slices/recipeSlice';
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
@@ -23,6 +22,7 @@ const reducer = {
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
   recipes: recipeListReducer,
+  favorites: favoritesReducer,
 };
 
 const store = configureStore({
